@@ -10,6 +10,7 @@ h1 {
 
 form {
   margin-bottom: 20px;
+  position: relative;
 }
 
 input {
@@ -35,4 +36,27 @@ button {
 .flagged {
   color: red;
   font-weight: bold;
+}
+
+#autocomplete-list {
+  list-style: none;
+  position: absolute;
+  top: 68px;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  width: 200px;
+  z-index: 1000;
+  padding-left: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+#autocomplete-list li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#autocomplete-list li:hover {
+  background-color: #eee;
 }
