@@ -1,0 +1,38 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  color: #e91e63;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 8px;
+  margin-right: 8px;
+}
+
+button {
+  padding: 8px 12px;
+}
+
+#drug-list {
+  list-style: none;
+  padding: 0;
+}
+
+#drug-list li {
+  margin-bottom: 8px;
+  padding: 6px;
+  border-bottom: 1px solid #ccc;
+}
+
+.flagged {
+  color: red;
+  font-weight: bold;
+}

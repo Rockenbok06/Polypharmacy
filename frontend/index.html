@@ -3,10 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Polypharmacy</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Polypharmacy</h1>
+
+  <form id="drug-form">
+    <input type="text" id="drug-name" placeholder="Drug name" required>
+    <input type="text" id="drug-dose" placeholder="Dose (e.g., 500mg)" required>
+    <button type="submit">Add Drug</button>
+  </form>
+
   <ul id="drug-list"></ul>
+
   <script src="script.js"></script>
 </body>
 </html>
