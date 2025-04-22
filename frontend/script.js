@@ -6,20 +6,8 @@ const suggestions = document.createElement('ul');
 suggestions.id = 'autocomplete-list';
 nameInput.parentNode.appendChild(suggestions);
 
-// Initial drug data (optional fetch from backend if needed)
-const initialDrugs = [
-  { name: 'Aspirin', dose: '81mg' },
-  { name: 'Metformin', dose: '500mg' }
-];
-initialDrugs.forEach(addDrugToList);
+let currentDrugs = [];
 
-// Fake interaction check
-function hasInteraction(drugName) {
-  const flagged = ['Aspirin', 'Warfarin'];
-  return flagged.includes(drugName);
-}
-
-// Autocomplete with RxNorm
 nameInput.addEventListener('input', () => {
   const query = nameInput.value.trim();
   suggestions.innerHTML = '';
@@ -43,24 +31,42 @@ nameInput.addEventListener('input', () => {
     .catch(err => console.error('Autocomplete error:', err));
 });
 
-// Handle adding new drug
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = nameInput.value.trim();
   const dose = doseInput.value.trim();
   if (name && dose) {
-    addDrugToList({ name, dose });
+    currentDrugs.push({ name, dose });
+    checkInteractions();
     nameInput.value = '';
     doseInput.value = '';
     suggestions.innerHTML = '';
   }
 });
 
-function addDrugToList(drug) {
-  const li = document.createElement('li');
-  li.textContent = `${drug.name} - ${drug.dose}`;
-  if (hasInteraction(drug.name)) {
-    li.classList.add('flagged');
-  }
-  drugList.appendChild(li);
+function renderDrugs(flaggedList = []) {
+  drugList.innerHTML = '';
+  currentDrugs.forEach(drug => {
+    const li = document.createElement('li');
+    li.textContent = `${drug.name} - ${drug.dose}`;
+    if (flaggedList.includes(drug.name)) {
+      li.classList.add('flagged');
+    }
+    drugList.appendChild(li);
+  });
+}
+
+function checkInteractions() {
+  const names = currentDrugs.map(d => d.name);
+  fetch('https://polypharmacy.onrender.com/api/check-interactions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ drugs: names })
+  })
+    .then(res => res.json())
+    .then(data => {
+      const flagged = data.flagged || [];
+      renderDrugs(flagged);
+    })
+    .catch(err => console.error('Interaction error:', err));
 }
