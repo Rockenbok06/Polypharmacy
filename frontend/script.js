@@ -1,4 +1,4 @@
-const apiUrl = 'REPLACE_WITH_YOUR_BACKEND_URL/api/drugs';
+const apiUrl = 'https://polypharmacy.onrender.com/api/drugs';
 fetch(apiUrl)
   .then(res => res.json())
   .then(data => {
